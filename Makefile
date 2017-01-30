@@ -18,7 +18,10 @@ HEADERS = $(wildcard *.h)
 .PRECIOUS: $(TARGET) $(OBJECTS)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) -Wall $(LIBS) -o $@
+	$(CC) -o mmio.o -c mmio.c
+	ar rc libmmio.a mmio.o
+	ranlib libmmio.a
+	$(CC) $(CFLAGS) mult_vector.c -o prog.out -L. -lmmio
 
 run:
 	./${PROGRAM_NAME} ${ARGS}
@@ -26,3 +29,4 @@ run:
 clean:
 	-rm -f *.o
 	-rm -f $(TARGET)
+
